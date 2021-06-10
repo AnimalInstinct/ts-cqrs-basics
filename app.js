@@ -1,0 +1,17 @@
+"use strict";
+exports.__esModule = true;
+var api_1 = require("./src/api");
+var event_handler_1 = require("./src/event-handler");
+var store_1 = require("./src/store");
+store_1.stores.product.registerEventHandler(event_handler_1.updateProductModel, "productModel");
+console.log("Creating two products");
+var kolbasaAggregate = api_1.createProduct({ name: "kolbasa", price: 100 });
+var ulitkaAggregate = api_1.createProduct({ name: "ulitka", price: 200 });
+api_1.changeProductPrice({ id: kolbasaAggregate.id, price: 300 });
+api_1.changeProductPrice({ id: kolbasaAggregate.id, price: 500 });
+var productEvents = store_1.stores.product.getAll();
+var products = store_1.models.product.readAll();
+var kolbasa = store_1.models.product.read(kolbasaAggregate.id);
+console.log("productEvents", productEvents);
+console.log("products", products);
+console.log("kolbasa", kolbasa);
